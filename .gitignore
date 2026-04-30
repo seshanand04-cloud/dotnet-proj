@@ -1,0 +1,12 @@
+# Ignore environment file (contains passwords)
+.env
+
+# Ignore WordPress core files (auto-downloaded by Docker)
+wordpress/
+
+# Ignore OS files
+.DS_Store
+Thumbs.db
+
+# Ignore temp database exports
+database/temp_*.sql
