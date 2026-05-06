@@ -1,4 +1,6 @@
 C:\Users\seshanand -G6\StudentPortal\publish\StudentPortal.exe
+C:\Users\seshanand -G6\StudentPortal\publish\publish\publish\publish\publish\publish\web.config
+C:\Users\seshanand -G6\StudentPortal\publish\publish\publish\publish\publish\web.config
 C:\Users\seshanand -G6\StudentPortal\publish\publish\publish\publish\web.config
 C:\Users\seshanand -G6\StudentPortal\publish\publish\publish\web.config
 C:\Users\seshanand -G6\StudentPortal\publish\publish\web.config
@@ -10,6 +12,16 @@ C:\Users\seshanand -G6\StudentPortal\publish\publish\publish\appsettings.Develop
 C:\Users\seshanand -G6\StudentPortal\publish\publish\publish\appsettings.json
 C:\Users\seshanand -G6\StudentPortal\publish\publish\publish\publish\appsettings.Development.json
 C:\Users\seshanand -G6\StudentPortal\publish\publish\publish\publish\appsettings.json
+C:\Users\seshanand -G6\StudentPortal\publish\publish\publish\publish\publish\appsettings.Development.json
+C:\Users\seshanand -G6\StudentPortal\publish\publish\publish\publish\publish\appsettings.json
+C:\Users\seshanand -G6\StudentPortal\publish\publish\publish\publish\publish\publish\appsettings.Development.json
+C:\Users\seshanand -G6\StudentPortal\publish\publish\publish\publish\publish\publish\appsettings.json
+C:\Users\seshanand -G6\StudentPortal\publish\publish\publish\publish\publish\publish\StudentPortal.deps.json
+C:\Users\seshanand -G6\StudentPortal\publish\publish\publish\publish\publish\publish\StudentPortal.runtimeconfig.json
+C:\Users\seshanand -G6\StudentPortal\publish\publish\publish\publish\publish\publish\StudentPortal.staticwebassets.endpoints.json
+C:\Users\seshanand -G6\StudentPortal\publish\publish\publish\publish\publish\StudentPortal.deps.json
+C:\Users\seshanand -G6\StudentPortal\publish\publish\publish\publish\publish\StudentPortal.runtimeconfig.json
+C:\Users\seshanand -G6\StudentPortal\publish\publish\publish\publish\publish\StudentPortal.staticwebassets.endpoints.json
 C:\Users\seshanand -G6\StudentPortal\publish\publish\publish\publish\StudentPortal.deps.json
 C:\Users\seshanand -G6\StudentPortal\publish\publish\publish\publish\StudentPortal.runtimeconfig.json
 C:\Users\seshanand -G6\StudentPortal\publish\publish\publish\publish\StudentPortal.staticwebassets.endpoints.json

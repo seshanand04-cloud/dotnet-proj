@@ -1,0 +1,7 @@
+C:\inetpub\wwwroot\StudentPortal\StudentPortal.exe
+C:\inetpub\wwwroot\StudentPortal\appsettings.Development.json
+C:\inetpub\wwwroot\StudentPortal\appsettings.json
+C:\inetpub\wwwroot\StudentPortal\StudentPortal.dll
+C:\inetpub\wwwroot\StudentPortal\StudentPortal.deps.json
+C:\inetpub\wwwroot\StudentPortal\StudentPortal.runtimeconfig.json
+C:\inetpub\wwwroot\StudentPortal\StudentPortal.pdb
