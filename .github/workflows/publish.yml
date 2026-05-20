@@ -65,7 +65,7 @@ jobs:
         timeout: 60s
         command_timeout: 10m
         script: |
-          powershell -Command "Stop-WebSite -Name 'Default Web Site'"
+          powershell -Command "Stop-WebSite -Name 'Studentportal'"
           powershell -Command "Expand-Archive -Path 'C:\inetpub\wwwroot\StudentPortal\StudentPortal.zip' -DestinationPath 'C:\inetpub\wwwroot\StudentPortal\' -Force"
           powershell -Command "Remove-Item 'C:\inetpub\wwwroot\StudentPortal\StudentPortal.zip' -Force"
           powershell -Command "Start-WebSite -Name 'Studentportal'"
