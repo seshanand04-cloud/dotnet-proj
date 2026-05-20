@@ -68,5 +68,5 @@ jobs:
           powershell -Command "Stop-WebSite -Name 'Default Web Site'"
           powershell -Command "Expand-Archive -Path 'C:\inetpub\wwwroot\StudentPortal\StudentPortal.zip' -DestinationPath 'C:\inetpub\wwwroot\StudentPortal\' -Force"
           powershell -Command "Remove-Item 'C:\inetpub\wwwroot\StudentPortal\StudentPortal.zip' -Force"
-          powershell -Command "Start-WebSite -Name 'Default Web Site'"
+          powershell -Command "Start-WebSite -Name 'Studentportal'"
           powershell -Command "Write-Host 'Deployment done'"
