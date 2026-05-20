@@ -55,7 +55,7 @@ jobs:
     needs: transfer
 
     steps:
-    - name: Stop IIS, extract files, start IIS
+    - name: Stop site, extract files, start site
       uses: appleboy/ssh-action@v1.0.0
       with:
         host: ${{ secrets.EC2_HOST }}
@@ -65,7 +65,8 @@ jobs:
         timeout: 60s
         command_timeout: 10m
         script: |
-          iisreset /stop
+          powershell -Command "Stop-WebSite -Name 'Default Web Site'"
           powershell -Command "Expand-Archive -Path 'C:\inetpub\wwwroot\StudentPortal\StudentPortal.zip' -DestinationPath 'C:\inetpub\wwwroot\StudentPortal\' -Force"
           powershell -Command "Remove-Item 'C:\inetpub\wwwroot\StudentPortal\StudentPortal.zip' -Force"
-          iisreset /start
+          powershell -Command "Start-WebSite -Name 'Default Web Site'"
+          powershell -Command "Write-Host 'Deployment done'"
