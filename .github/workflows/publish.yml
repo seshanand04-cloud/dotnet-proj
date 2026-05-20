@@ -1,75 +1,29 @@
-name: Build and Deploy
-
+name: Build and Zip
+ 
 on:
   workflow_dispatch:
-
+ 
 jobs:
-  # JOB 1: Build and Create ZIP
   build:
     runs-on: windows-latest
-
+ 
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
-
+ 
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: '9.0.x'
-
+ 
     - name: Publish
       run: dotnet publish StudentPortal.csproj -c Release -o ./output
-
+ 
     - name: Zip output
       run: Compress-Archive -Path ./output/* -DestinationPath ./StudentPortal.zip
-
-    - name: Save ZIP for next job
+ 
+    - name: Upload ZIP
       uses: actions/upload-artifact@v4
       with:
         name: StudentPortal
         path: StudentPortal.zip
-
-  # JOB 2: Transfer ZIP to EC2 via FTP
-  transfer:
-    runs-on: ubuntu-latest
-    needs: build
-
-    steps:
-    - name: Download ZIP from previous job
-      uses: actions/download-artifact@v4
-      with:
-        name: StudentPortal
-
-    - name: Upload ZIP to EC2 via FTP
-      uses: SamKirkland/FTP-Deploy-Action@v4.3.4
-      with:
-        server: ${{ secrets.EC2_HOST }}
-        username: ${{ secrets.EC2_USERNAME }}
-        password: ${{ secrets.EC2_PASSWORD }}
-        port: 21
-        local-dir: ./
-        server-dir: /uploads/
-        include: |
-          StudentPortal.zip
-
-  # JOB 3: Extract ZIP and Restart IIS on EC2
-  deploy:
-    runs-on: ubuntu-latest
-    needs: transfer
-
-    steps:
-    - name: Stop IIS, Extract ZIP, Start IIS
-      uses: appleboy/ssh-action@v1.0.0
-      with:
-        host: ${{ secrets.EC2_HOST }}
-        username: ${{ secrets.EC2_USERNAME }}
-        password: ${{ secrets.EC2_PASSWORD }}
-        port: 22
-        use_insecure_cipher: true
-        cipher: aes128-ctr
-        timeout: 60s
-        command_timeout: 10m
-        script: |
-          iisreset /stop
-          Expand-Archive -Path "C:\inetpub\wwwroot\uploads\StudentPortal.zip" -DestinationPath "C:\inetpub\wwwroot\StudentPortal\" -Force
-          iisreset /start
