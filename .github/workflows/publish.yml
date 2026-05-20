@@ -65,6 +65,10 @@ jobs:
         username: ${{ secrets.EC2_USERNAME }}
         password: ${{ secrets.EC2_PASSWORD }}
         port: 22
+        use_insecure_cipher: true
+        cipher: aes128-ctr
+        timeout: 60s
+        command_timeout: 10m
         script: |
           iisreset /stop
           Expand-Archive -Path "C:\inetpub\wwwroot\uploads\StudentPortal.zip" -DestinationPath "C:\inetpub\wwwroot\StudentPortal\" -Force
