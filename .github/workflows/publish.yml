@@ -69,3 +69,4 @@ jobs:
           powershell -Command "Expand-Archive -Path 'C:\inetpub\wwwroot\StudentPortal\StudentPortal.zip' -DestinationPath 'C:\inetpub\wwwroot\StudentPortal\' -Force"
           powershell -Command "Remove-Item 'C:\inetpub\wwwroot\StudentPortal\StudentPortal.zip' -Force"
           iisreset /start
+          iisreset /status
