@@ -1,73 +1,29 @@
 name: Build and Zip
-
+ 
 on:
   workflow_dispatch:
-
+ 
 jobs:
   build:
     runs-on: windows-latest
-
+ 
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
-
+ 
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: '9.0.x'
-
+ 
     - name: Publish
       run: dotnet publish StudentPortal.csproj -c Release -o ./output
-
+ 
     - name: Zip output
       run: Compress-Archive -Path ./output/* -DestinationPath ./StudentPortal.zip
-
+ 
     - name: Upload ZIP
       uses: actions/upload-artifact@v4
       with:
         name: StudentPortal
         path: StudentPortal.zip
-
-  deploy:
-    runs-on: windows-latest
-    needs: build
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
-
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: '9.0.x'
-
-    - name: Publish
-      run: dotnet publish StudentPortal.csproj -c Release -o ./output
-
-    - name: Stop IIS on Remote Server
-      uses: appleboy/ssh-action@v1.0.0
-      with:
-        host: ${{ secrets.EC2_HOST }}
-        username: ${{ secrets.EC2_USERNAME }}
-        password: ${{ secrets.EC2_PASSWORD }}
-        script: |
-          iisreset /stop
-
-    - name: Copy Files to Remote Server
-      uses: SamKirkland/FTP-Deploy-Action@v4.3.4
-      with:
-        server: ${{ secrets.EC2_HOST }}
-        username: ${{ secrets.EC2_USERNAME }}
-        password: ${{ secrets.EC2_PASSWORD }}
-        port: 21
-        local-dir: ./output/
-        server-dir: /StudentPortal/
-
-    - name: Start IIS on Remote Server
-      uses: appleboy/ssh-action@v1.0.0
-      with:
-        host: ${{ secrets.EC2_HOST }}
-        username: ${{ secrets.EC2_USERNAME }}
-        password: ${{ secrets.EC2_PASSWORD }}
-        script: |
-          iisreset /start
