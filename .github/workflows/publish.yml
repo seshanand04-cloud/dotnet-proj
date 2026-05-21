@@ -48,7 +48,7 @@ jobs:
         source: "StudentPortal.zip"
         target: "C:/inetpub/wwwroot/StudentPortal/"
 
-    - name: Deploy on EC2
+    - name: Run deploy script on EC2
       uses: appleboy/ssh-action@v1.0.0
       with:
         host: ${{ secrets.EC2_HOST }}
@@ -57,16 +57,5 @@ jobs:
         port: 22
         timeout: 60s
         command_timeout: 10m
-        script_stop: false
         script: |
-          powershell -Command "Stop-WebAppPool -Name 'DefaultAppPool'"
-          powershell -Command "Start-Sleep -Seconds 5"
-          powershell -Command "Stop-WebSite -Name 'Studentportal'"
-          powershell -Command "Start-Sleep -Seconds 3"
-          taskkill /F /IM w3wp.exe
-          powershell -Command "Start-Sleep -Seconds 3"
-          powershell -Command "Expand-Archive -Path 'C:/inetpub/wwwroot/StudentPortal/StudentPortal.zip' -DestinationPath 'C:/inetpub/wwwroot/StudentPortal' -Force"
-          powershell -Command "Remove-Item 'C:/inetpub/wwwroot/StudentPortal/StudentPortal.zip' -Force"
-          powershell -Command "Start-WebAppPool -Name 'DefaultAppPool'"
-          powershell -Command "Start-WebSite -Name 'Studentportal'"
-          echo Deployment done
+          C:\deploy.bat
