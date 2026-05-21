@@ -1,34 +1,34 @@
-name: Build and Zip
+name: Build and Deploy
 
 on:
   workflow_dispatch:
- 
+
 jobs:
   build:
     runs-on: windows-latest
- 
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
- 
+
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: '9.0.x'
- 
+
     - name: Publish
       run: dotnet publish StudentPortal.csproj -c Release -o ./output
- 
+
     - name: Zip output
       run: Compress-Archive -Path ./output/* -DestinationPath ./StudentPortal.zip
- 
-    - name: Upload ZIP
+
+    - name: Upload ZIP as artifact
       uses: actions/upload-artifact@v4
       with:
         name: StudentPortal
         path: StudentPortal.zip
 
-  transfer:
+  deploy:
     runs-on: ubuntu-latest
     needs: build
 
@@ -38,23 +38,16 @@ jobs:
       with:
         name: StudentPortal
 
-    - name: Upload ZIP to EC2 via FTP
-      uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+    - name: Copy ZIP to EC2 via SCP
+      uses: appleboy/scp-action@v0.1.7
       with:
-        server: ${{ secrets.EC2_HOST }}
+        host: ${{ secrets.EC2_HOST }}
         username: ${{ secrets.EC2_USERNAME }}
-        password: ${{ secrets.EC2_PASSWORD }}
-        port: 21
-        local-dir: ./
-        server-dir: /StudentPortal/
-        include: |
-          StudentPortal.zip
+        key: ${{ secrets.EC2_SSH_KEY }}
+        port: 22
+        source: "StudentPortal.zip"
+        target: "C:/inetpub/wwwroot/StudentPortal/"
 
-  deploy:
-    runs-on: ubuntu-latest
-    needs: transfer
-
-    steps:
     - name: Run deploy script on EC2
       uses: appleboy/ssh-action@v1.0.0
       with:
