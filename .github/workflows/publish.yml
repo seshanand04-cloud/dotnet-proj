@@ -55,7 +55,7 @@ jobs:
     needs: transfer
 
     steps:
-    - name: Stop app pool, extract files, start app pool
+    - name: Run deploy script on EC2
       uses: appleboy/ssh-action@v1.0.0
       with:
         host: ${{ secrets.EC2_HOST }}
@@ -65,4 +65,4 @@ jobs:
         timeout: 60s
         command_timeout: 10m
         script: |
-          powershell -Command "Stop-WebAppPool -Name 'DefaultAppPool'; Start-Sleep -Seconds 3; Expand-Archive -Path 'C:/inetpub/wwwroot/StudentPortal/StudentPortal.zip' -DestinationPath 'C:/inetpub/wwwroot/StudentPortal' -Force; Remove-Item 'C:/inetpub/wwwroot/StudentPortal/StudentPortal.zip' -Force; Start-WebAppPool -Name 'DefaultAppPool'; Start-WebSite -Name 'Studentportal'; Write-Host 'Deployment done'"
+          C:\deploy.bat
