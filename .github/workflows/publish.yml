@@ -55,7 +55,7 @@ jobs:
     needs: transfer
 
     steps:
-    - name: Stop site, extract files, start site
+    - name: Stop app pool, extract files, start app pool
       uses: appleboy/ssh-action@v1.0.0
       with:
         host: ${{ secrets.EC2_HOST }}
@@ -65,10 +65,4 @@ jobs:
         timeout: 60s
         command_timeout: 10m
         script: |
-          powershell -Command "Stop-WebAppPool -Name 'DefaultAppPool'"
-          powershell -Command "Start-Sleep -Seconds 3"
-          powershell -Command "Expand-Archive -Path 'C:\inetpub\wwwroot\StudentPortal\StudentPortal.zip' -DestinationPath 'C:\inetpub\wwwroot\StudentPortal\' -Force"
-          powershell -Command "Remove-Item 'C:\inetpub\wwwroot\StudentPortal\StudentPortal.zip' -Force"
-          powershell -Command "Start-WebAppPool -Name 'DefaultAppPool'"
-          powershell -Command "Start-WebSite -Name 'Studentportal'"
-          powershell -Command "Write-Host 'Deployment done'"
+          powershell -Command "Stop-WebAppPool -Name 'DefaultAppPool'; Start-Sleep -Seconds 3; Expand-Archive -Path 'C:/inetpub/wwwroot/StudentPortal/StudentPortal.zip' -DestinationPath 'C:/inetpub/wwwroot/StudentPortal' -Force; Remove-Item 'C:/inetpub/wwwroot/StudentPortal/StudentPortal.zip' -Force; Start-WebAppPool -Name 'DefaultAppPool'; Start-WebSite -Name 'Studentportal'; Write-Host 'Deployment done'"
