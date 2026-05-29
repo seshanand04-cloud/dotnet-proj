@@ -58,4 +58,4 @@ jobs:
         timeout: 60s
         command_timeout: 10m
         script: |
-          C:\deploy.bat
+          C:\deploy.bat 
