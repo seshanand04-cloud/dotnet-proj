@@ -22,13 +22,11 @@ jobs:
     - name: Stop IIS
       shell: powershell
       run: |
-        try { Stop-WebAppPool -Name "DefaultAppPool" } catch {}
+        $ErrorActionPreference = 'SilentlyContinue'
+        Stop-WebAppPool -Name "DefaultAppPool"
         Start-Sleep -Seconds 5
-        try { Stop-WebSite -Name "Studentportal" } catch {}
+        Stop-WebSite -Name "Studentportal"
         Start-Sleep -Seconds 3
-        & taskkill /F /IM w3wp.exe 2>&1 | Out-Null
-        Start-Sleep -Seconds 3
-        exit 0
 
     - name: Deploy files
       shell: powershell
