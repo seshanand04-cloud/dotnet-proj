@@ -1,0 +1,42 @@
+name: Build and Deploy
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: self-hosted
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '9.0.x'
+
+    - name: Publish
+      run: dotnet publish StudentPortal.csproj -c Release -o ./output
+
+    - name: Stop IIS
+      shell: powershell
+      run: |
+        Stop-WebAppPool -Name "DefaultAppPool"
+        Start-Sleep -Seconds 5
+        Stop-WebSite -Name "Studentportal"
+        Start-Sleep -Seconds 3
+        taskkill /F /IM w3wp.exe
+        Start-Sleep -Seconds 3
+
+    - name: Deploy files
+      shell: powershell
+      run: |
+        Copy-Item -Path "./output/*" -Destination "C:\inetpub\wwwroot\StudentPortal\" -Recurse -Force
+
+    - name: Start IIS
+      shell: powershell
+      run: |
+        Start-WebAppPool -Name "DefaultAppPool"
+        Start-WebSite -Name "Studentportal"
+        Write-Host "Deployment done!"
