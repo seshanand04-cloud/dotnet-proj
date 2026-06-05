@@ -27,15 +27,20 @@ jobs:
         Start-Sleep -Seconds 5
         Stop-WebSite -Name "Studentportal"
         Start-Sleep -Seconds 3
-
+        iisreset /stop
+        Start-Sleep -Seconds 5
+        Write-Host "IIS stopped"
     - name: Deploy files
       shell: powershell
       run: |
         Copy-Item -Path "./output/*" -Destination "C:\inetpub\wwwroot\StudentPortal\" -Recurse -Force
-
     - name: Start IIS
       shell: powershell
       run: |
+        iisreset /start
+        Start-Sleep -Seconds 5
         Start-WebAppPool -Name "DefaultAppPool"
+        Start-Sleep -Seconds 3
         Start-WebSite -Name "Studentportal"
+        Start-Sleep -Seconds 3
         Write-Host "Deployment done!"
