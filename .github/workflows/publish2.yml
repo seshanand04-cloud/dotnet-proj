@@ -27,6 +27,9 @@ jobs:
         Start-Sleep -Seconds 5
         Stop-WebSite -Name "Studentportal"
         Start-Sleep -Seconds 3
+        cmd /c "taskkill /F /IM w3wp.exe >nul 2>&1"
+        Start-Sleep -Seconds 3
+        Write-Host "IIS stopped"
 
     - name: Deploy files
       shell: powershell
