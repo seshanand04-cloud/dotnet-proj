@@ -26,7 +26,8 @@ jobs:
         Start-Sleep -Seconds 5
         Stop-WebSite -Name "Studentportal"
         Start-Sleep -Seconds 3
-        taskkill /F /IM w3wp.exe
+        taskkill /F /IM w3wp.exe 2>$null
+        $LASTEXITCODE = 0
         Start-Sleep -Seconds 3
 
     - name: Deploy files
