@@ -39,12 +39,8 @@ jobs:
       run: |
         iisreset /start
         Start-Sleep -Seconds 5
-        iisreset /start
-        Start-Sleep -Seconds 5
         Start-WebAppPool -Name "DefaultAppPool"
         Start-Sleep -Seconds 3
-        Start-Sleep -Seconds 3
         Start-WebSite -Name "Studentportal"
-        Start-Sleep -Seconds 3
         Start-Sleep -Seconds 3
         Write-Host "Deployment done!"
