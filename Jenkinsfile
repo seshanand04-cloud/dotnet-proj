@@ -47,28 +47,42 @@ pipeline {
         }
 
         stage('Deploy') {
-            steps {
-                echo 'Running deployment script...'
+    steps {
+        echo 'Running deployment script...'
 
-                // Stop IIS
-                bat 'powershell -Command "Stop-WebAppPool -Name \'DefaultAppPool\'"'
-                bat 'powershell -Command "Start-Sleep -Seconds 5"'
-                bat 'powershell -Command "Stop-WebSite -Name \'Studentportal\'"'
-                bat 'powershell -Command "Start-Sleep -Seconds 3"'
-                bat 'taskkill /F /IM w3wp.exe || exit /b 0'
-                bat 'timeout /t 3'
+        // Stop IIS
+        bat 'powershell -Command "Stop-WebAppPool -Name \'DefaultAppPool\'"'
+        bat 'powershell -Command "Start-Sleep -Seconds 5"'
+        bat 'powershell -Command "Stop-WebSite -Name \'Studentportal\'"'
+        bat 'powershell -Command "Start-Sleep -Seconds 3"'
 
-                // Unzip and clean
-                bat 'powershell -Command "Expand-Archive -Path \'%ZIP_PATH%\' -DestinationPath \'%PUBLISH_OUTPUT%\' -Force"'
-                bat 'powershell -Command "Remove-Item \'%ZIP_PATH%\' -Force"'
+        // Kill w3wp if running (ignore error if not found)
+        bat '''
+            powershell -Command "
+                $proc = Get-Process -Name w3wp -ErrorAction SilentlyContinue;
+                if ($proc) { 
+                    Stop-Process -Name w3wp -Force;
+                    Write-Host 'w3wp.exe killed'
+                } else { 
+                    Write-Host 'w3wp.exe not running, skipping'
+                }
+            "
+        '''
 
-                // Start IIS
-                bat 'powershell -Command "Start-WebAppPool -Name \'DefaultAppPool\'"'
-                bat 'powershell -Command "Start-WebSite -Name \'Studentportal\'"'
+        // Wait
+        bat 'powershell -Command "Start-Sleep -Seconds 3"'
 
-                echo 'Deployment done!'
-            }
-        }
+        // Unzip and clean
+        bat 'powershell -Command "Expand-Archive -Path \'C:\\inetpub\\wwwroot\\StudentPortal\\StudentPortal.zip\' -DestinationPath \'C:\\inetpub\\wwwroot\\StudentPortal\' -Force"'
+        bat 'powershell -Command "Remove-Item \'C:\\inetpub\\wwwroot\\StudentPortal\\StudentPortal.zip\' -Force"'
+
+        // Start IIS
+        bat 'powershell -Command "Start-WebAppPool -Name \'DefaultAppPool\'"'
+        bat 'powershell -Command "Start-WebSite -Name \'Studentportal\'"'
+
+        echo 'Deployment done!'
+    }
+}
 
     }
 
