@@ -32,9 +32,9 @@ jobs:
       shell: powershell
       run: iisreset /start
 
-    - name: Pull latest code to local
+    - name: Pull latest code
       shell: powershell
       run: |
-        cd "C:\Users\seshanand -G6\StudentPortal"
+        cd $env:GITHUB_WORKSPACE
         git pull origin main
-        Write-Host "Local code updated!"
+        Write-Host "✅ $env:COMPUTERNAME updated!"
