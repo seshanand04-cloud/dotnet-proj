@@ -52,7 +52,6 @@ pipeline {
         }
         failure {
             echo '❌ Pipeline Failed!'
-            // Make sure IIS is started even if pipeline fails
             bat 'iisreset /start'
         }
         always {
