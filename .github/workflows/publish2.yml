@@ -35,10 +35,3 @@ jobs:
     - name: Start IIS
       shell: powershell
       run: iisreset /start
-
-    - name: Pull latest code
-      shell: powershell
-      run: |
-        cd $env:GITHUB_WORKSPACE
-        git pull origin main
-        Write-Host "✅ $env:COMPUTERNAME updated!"
